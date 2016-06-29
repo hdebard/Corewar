@@ -1,0 +1,65 @@
+#******************************************************************************#
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vbarrete <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/06/07 15:12:46 by vbarrete          #+#    #+#              #
+#    Updated: 2016/06/28 16:24:26 by pabril           ###   ########.fr        #
+#                                                                              #
+#******************************************************************************#
+
+NAME = ../asm
+
+SRC = 	sources/main.c\
+		sources/parsing/asm_parse_file.c\
+		sources/parsing/asm_check_file.c\
+		sources/parsing/asm_check_header.c\
+		sources/parsing/asm_check_label.c\
+		sources/parsing/asm_check_command.c\
+		sources/parsing/asm_command_1.c\
+		sources/parsing/asm_command_2.c\
+		sources/parsing/asm_check_arg.c\
+		sources/util/asm_util.c\
+		sources/util/asm_strsplit.c\
+		sources/encoding/asm_encode.c\
+		sources/encoding/asm_find_command.c\
+		sources/encoding/asm_parse_command.c\
+		sources/writing/asm_create_file.c
+
+OBJ = 	main.o\
+		asm_parse_file.o\
+		asm_check_file.o\
+		asm_check_header.o\
+		asm_check_label.o\
+		asm_check_command.o\
+		asm_command_1.o\
+        asm_command_2.o\
+        asm_check_arg.o\
+        asm_util.o\
+        asm_strsplit.o\
+        asm_encode.o\
+        asm_find_command.o\
+        asm_parse_command.o\
+        asm_create_file.o
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+		gcc -Wall -Werror -Wextra -o $(NAME) $(OBJ) -L libft/ -lft
+
+$(OBJ): $(SRC)
+		make -C libft/
+		gcc -Wall -Wextra -Werror -I libft/ -c  $(SRC)
+
+clean:
+		make -C libft/ fclean
+			rm -rf $(OBJ)
+
+fclean: clean
+		rm -rf $(NAME)
+
+re: fclean all
+
+.PHONY: re fclean clean all
